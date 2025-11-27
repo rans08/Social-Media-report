@@ -54,8 +54,8 @@ const App: React.FC = () => {
 
   if (isFullscreen) {
     return (
-      <div className="fixed inset-0 z-50 bg-white overflow-y-auto">
-        <div className="min-h-full flex flex-col items-center">
+      <div className="fixed inset-0 z-50 bg-white overflow-y-auto overflow-x-hidden no-scrollbar">
+        <div className="flex flex-col w-full">
           <ReportPage1 data={data} isFullScreen={true} />
           <ReportPage2 data={data} isFullScreen={true} />
         </div>
