@@ -28,11 +28,16 @@
     </script>
     <style>
       @media print {
+        @page {
+          size: A4;
+          margin: 0;
+        }
         .no-print {
           display: none !important;
         }
         body {
           background: white;
+          margin: 0;
         }
         .page-break {
           break-before: page;

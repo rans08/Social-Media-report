@@ -7,6 +7,7 @@ import { ReportData, PlatformMetric, TopPost, BottomPost } from '../types';
 
 interface Props {
   data: ReportData;
+  isFullScreen?: boolean;
 }
 
 const StatCard = ({ label, value, increase, icon: Icon }: { label: string; value: string; increase: number; icon: any }) => (
@@ -25,9 +26,15 @@ const StatCard = ({ label, value, increase, icon: Icon }: { label: string; value
   </div>
 );
 
-export const ReportPage1: React.FC<Props> = ({ data }) => {
+export const ReportPage1: React.FC<Props> = ({ data, isFullScreen = false }) => {
   return (
-    <div className="w-full max-w-5xl mx-auto bg-white aspect-[1/1.414] shadow-lg mb-8 p-12 text-slate-800 flex flex-col relative print:shadow-none print:mb-0 print:aspect-auto page-break">
+    <div className={`
+      w-full bg-white p-8 sm:p-12 text-slate-800 flex flex-col relative print:shadow-none print:mb-0 print:p-8 page-break
+      ${isFullScreen 
+        ? 'aspect-[1/1.414]' 
+        : 'max-w-[210mm] mx-auto aspect-[1/1.414] shadow-lg mb-8'
+      }
+    `}>
       
       {/* Header */}
       <header className="mb-8 border-b border-slate-200 pb-4 flex justify-between items-end">

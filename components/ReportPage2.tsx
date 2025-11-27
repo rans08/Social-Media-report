@@ -7,11 +7,12 @@ import { ReportData } from '../types';
 
 interface Props {
   data: ReportData;
+  isFullScreen?: boolean;
 }
 
 const COLORS = ['#0ea5e9', '#6366f1', '#8b5cf6', '#ec4899'];
 
-export const ReportPage2: React.FC<Props> = ({ data }) => {
+export const ReportPage2: React.FC<Props> = ({ data, isFullScreen = false }) => {
   
   // Transform traffic data for charts
   const trafficData = [
@@ -21,7 +22,13 @@ export const ReportPage2: React.FC<Props> = ({ data }) => {
   ];
 
   return (
-    <div className="w-full max-w-5xl mx-auto bg-white aspect-[1/1.414] shadow-lg p-12 text-slate-800 flex flex-col relative print:shadow-none print:aspect-auto page-break">
+    <div className={`
+      w-full bg-white p-8 sm:p-12 text-slate-800 flex flex-col relative print:shadow-none print:aspect-auto print:p-8 page-break
+      ${isFullScreen 
+        ? 'aspect-[1/1.414]' 
+        : 'max-w-[210mm] mx-auto aspect-[1/1.414] shadow-lg mb-8'
+      }
+    `}>
        {/* Header */}
        <header className="mb-8 border-b border-slate-200 pb-4 flex justify-between items-end">
         <div>
