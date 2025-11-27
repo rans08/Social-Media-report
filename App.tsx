@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReportPage1 } from './components/ReportPage1';
 import { ReportPage2 } from './components/ReportPage2';
 import { INITIAL_DATA } from './constants';
 import { ReportData } from './types';
-import { Printer, Sparkles, RefreshCcw } from 'lucide-react';
+import { Printer, Sparkles, RefreshCcw, Maximize } from 'lucide-react';
 import { generateReportInsights } from './services/geminiService';
 
 const App: React.FC = () => {
   const [data, setData] = useState<ReportData>(INITIAL_DATA);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsFullscreen(false);
+      }
+    };
+
+    if (isFullscreen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isFullscreen]);
 
   const handlePrint = () => {
     window.print();
@@ -34,6 +51,17 @@ const App: React.FC = () => {
   const handleReset = () => {
     setData(INITIAL_DATA);
   };
+
+  if (isFullscreen) {
+    return (
+      <div className="fixed inset-0 z-50 bg-slate-900 overflow-y-auto">
+        <div className="min-h-full flex flex-col items-center py-12">
+          <ReportPage1 data={data} />
+          <ReportPage2 data={data} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-100 font-sans pb-20">
@@ -80,6 +108,14 @@ const App: React.FC = () => {
                   <span>AI Analysis</span>
                 </>
               )}
+            </button>
+
+            <button 
+              onClick={() => setIsFullscreen(true)}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-lg transition-colors shadow-sm"
+            >
+              <Maximize size={16} />
+              <span className="hidden sm:inline">Fullscreen</span>
             </button>
 
             <button 
